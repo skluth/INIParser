@@ -18,16 +18,17 @@
 // Namespaces:
 using std::string;
 using std::vector;
+using std::complex;
 using namespace INIParser;
 
 // Test fixture for all tests:
 class INIReaderTestFixture {
 public:
   INIReaderTestFixture() : reader( "test.ini" ) {
-    BOOST_MESSAGE( "Create test fixture" );
+    BOOST_MESSAGE( "Create INIReaderTestFixture" );
   }
   virtual ~INIReaderTestFixture() {
-    BOOST_MESSAGE( "Tear down test fixture" );
+    BOOST_MESSAGE( "Tear down INIReaderTestFixture" );
   }
   INIReader reader;
 };
@@ -132,11 +133,11 @@ BOOST_AUTO_TEST_CASE( testGetDouble ) {
 
 // Test complex:
 BOOST_AUTO_TEST_CASE( testGetComplex ) {
-  std::complex<double> value;
-  value= reader.getType( "protocol", "complex", std::complex<double>() );
-  BOOST_CHECK_EQUAL( value, std::complex<double>(1.0,1.0) );
-  value= reader.getType( "protocol", "???", std::complex<double>() );
-  BOOST_CHECK_EQUAL( value, std::complex<double>() );
+  complex<double> value;
+  value= reader.getType( "protocol", "complex", complex<double>() );
+  BOOST_CHECK_EQUAL( value, complex<double>(1.0,1.0) );
+  value= reader.getType( "protocol", "???", complex<double>() );
+  BOOST_CHECK_EQUAL( value, complex<double>() );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
