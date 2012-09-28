@@ -33,7 +33,7 @@ $(LIB): $(LIBOBJS)
 
 $(TESTEXE): $(TESTFILE:.cc=.o) $(LIB)
 	$(LD) -o $@ $^ $(LDFLAGS) $(LDLIBS)
-	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) ./$@ --log_level=message
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH): ./$@ --log_level=message
 
 INIReaderTest: INIReaderTest.cc $(LIB)
 	$(CXX) -o $@ $^
