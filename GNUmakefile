@@ -15,7 +15,10 @@ DEPS = $(LIBFILES:.cc=.d) $(TESTFILE:.cc=.d)
 
 ifdef HEPROOT
 CPPFLAGS = -I $(HEPROOT)/include/boost-1_48/
-LDFLAGS = -L $(HEPROOT)/lib
+LDFLAGS = -L $(HEPROOT)/lib64
+LDLIBS = -lboost_unit_test_framework-gcc46-mt-1_48
+else
+LDLIBS = -lboost_unit_test_framework
 endif
 
 
@@ -29,7 +32,7 @@ $(LIB): $(LIBOBJS)
 	$(LD) -shared -o $@ $^
 
 $(TESTEXE): $(TESTFILE:.cc=.o) $(LIB)
-	$(LD) -o $@ $^ -lboost_unit_test_framework
+	$(LD) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 	./$@ --log_level=message
 
 INIReaderTest: INIReaderTest.cc $(LIB)
