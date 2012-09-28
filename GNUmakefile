@@ -11,8 +11,6 @@ TESTEXE = $(basename $(TESTFILE) )
 LIBOBJS = $(LIBFILES:.cc=.o)
 LIB = libINIParser.so
 DEPS = $(LIBFILES:.cc=.d) $(TESTFILE:.cc=.d)
-
-
 ifdef HEPROOT
 CPPFLAGS = -I $(HEPROOT)/include/boost-1_48/
 LDFLAGS = -L $(HEPROOT)/lib64
@@ -21,6 +19,7 @@ else
 LDLIBS = -lboost_unit_test_framework
 endif
 
+.INTERMEDIATE: $(LIBOBJS) $(TESTFILE:.cc=.o)
 
 all: $(TESTEXE)
 
@@ -39,5 +38,5 @@ INIReaderTest: INIReaderTest.cc $(LIB)
 	$(CXX) -o $@ $^
 
 clean:
-	rm -f *.o $(DEPS) $(TESTEXE) $(LIB) INIReaderTest
+	rm -f *.o $(DEPS) $(TESTEXE) $(LIB)
 
