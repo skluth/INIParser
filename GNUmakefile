@@ -38,5 +38,5 @@ INIReaderTest: INIReaderTest.cc $(LIB)
 	$(CXX) -o $@ $^
 
 clean:
-	rm -f *.o $(DEPS) $(TESTEXE) $(LIB)
+	rm -f $(DEPS) $(TESTEXE) $(LIB)
 
