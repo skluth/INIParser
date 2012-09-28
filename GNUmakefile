@@ -12,6 +12,13 @@ LIBOBJS = $(LIBFILES:.cc=.o)
 LIB = libINIParser.so
 DEPS = $(LIBFILES:.cc=.d) $(TESTFILE:.cc=.d)
 
+
+ifdef HEPROOT
+CPPFLAGS = -I $(HEPROOT)/include/boost-1_48/
+LDFLAGS = -L $(HEPROOT)/lib
+endif
+
+
 all: $(TESTEXE)
 
 $(DEPS): %.d: %.cc
