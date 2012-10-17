@@ -24,7 +24,7 @@ namespace INIParser {
     
     // Construct INIReader and parse given filename. See ini.hh for more info
     // about the parsing.
-    INIReader( const std::string& filename );
+    INIReader( const std::string& filename, bool optlower=true );
     
     // Return the result of ini_parse(), i.e., 0 on success, line number of
     // first error on parse error, or -1 on file open error.
@@ -47,6 +47,9 @@ namespace INIParser {
       return result;
     }
     
+    // Transform key=value strings:
+    std::string optionxform( const char* ) const;
+
     // Debugging aids:
     void dump() const;
     void dumpSection( const std::string& section ) const;
@@ -54,6 +57,7 @@ namespace INIParser {
   private:
 
     int _error;
+    bool _optlower;
     std::map<std::string,std::map<std::string,std::string> > _sectionMap;
     // Handler for parser ini.cc:
     static int valueHandler( void* user, const char* section, const char* name,

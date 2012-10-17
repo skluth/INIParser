@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE( testParse ) {
 BOOST_AUTO_TEST_CASE( testGetString ) {
   string value, expectedValue;
   value= reader.get( "user", "name", "" );
-  expectedValue= "Bob Smith";
+  expectedValue= "bob smith";
   BOOST_CHECK_EQUAL( value, expectedValue );
   expectedValue= "default";
   value= reader.get( "user", "???", "default" );
@@ -139,6 +139,16 @@ BOOST_AUTO_TEST_CASE( testGetComplex ) {
   value= reader.getType( "protocol", "???", complex<double>() );
   BOOST_CHECK_EQUAL( value, complex<double>() );
 }
+
+// Test key=value transform helper:
+BOOST_AUTO_TEST_CASE( testOptionxform ) {
+  const char* str= "AaBbCc";
+  string transformed= reader.optionxform( str );
+  string expected= "aabbcc";
+  BOOST_CHECK_EQUAL( transformed, expected );
+}
+
+
 
 BOOST_AUTO_TEST_SUITE_END()
 

@@ -13,7 +13,8 @@ using namespace INIParser;
 
 
 // Ctor, read complete ini file here using the built-in handler:
-INIReader::INIReader( const string& filename ) {
+INIReader::INIReader( const string& filename, bool optlower ) : 
+  _optlower( optlower ) {
   _error= ini_parse( filename.c_str(), valueHandler, this );
 }
 
@@ -73,15 +74,25 @@ vector<string> INIReader::getNames( const string& section ) const {
   return names;
 }
 
+// A la python ConfigParser: transform option to lowercase by default:
+string INIReader::optionxform( const char* option ) const {
+  string str( option );
+  if( _optlower ) std::transform( str.begin(), str.end(), 
+				  str.begin(), ::tolower );
+  return str;
+}
+
 // Handler as expected by ini.cc, it is called for each parsed line.
-// Store value with keys <section> and <name> in map of maps:
-int INIReader::valueHandler( void* user, const char* section, const char* name,
+// Store value with keys <section> and <key> in map of maps:
+int INIReader::valueHandler( void* user, const char* section, const char* key,
 			     const char* value ) {
   INIReader* reader= (INIReader*) user;
-  if( reader->_sectionMap[section][name].size() > 0 ) {
-    reader->_sectionMap[section][name]+= "\n";
+  string keystr= reader->optionxform( key );
+  string valuestr= reader->optionxform( value );
+  if( reader->_sectionMap[section][keystr].size() > 0 ) {
+    reader->_sectionMap[section][keystr]+= "\n";
   }
-  reader->_sectionMap[section][name]+= value;
+  reader->_sectionMap[section][keystr]+= valuestr;
   return 1;
 }
 
